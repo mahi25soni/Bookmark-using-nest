@@ -23,4 +23,9 @@ export class AuthController {
         return this.authsService.login(data)
     }
 
+    ///User ka login aur token rahega auth mei
+    // User ka sign up, forget password, aur reset password rahega, user service mei.
+    //login wala thoda sahi se banaunga, baaki forget aur reset toh abhi banaye thhe toh uspei time waste nahi krunga 
+    // PRISMA SERVICE kese aur kya work krti hai ye bhi smjhna pdega
+    /// aur ye ... ka kya scene hai smjhna padega
 }
