@@ -3,13 +3,18 @@ import { ReturnResponse } from 'src/common/interfaces/response.interfaces';
 import { PrismaService } from "src/prisma.service";
 import { LoginDto, UserDto } from "./dto/auth.dto";
 import { hash , compare} from 'bcrypt';
+import { JwtService } from "@nestjs/jwt";
+import { create } from "domain";
 
 // import bcrypt from 'bcrypt' was not working, and bcrypt.hash was showing problem, but this 
 // this not showing any problem
 // ASK HARSH
 @Injectable()
 export class AuthService {
-    constructor(private readonly prisma : PrismaService) {}
+    constructor(
+        private readonly prisma : PrismaService , 
+        private readonly jwtservice : JwtService 
+        ) {}
 
     async register(data : UserDto): Promise<ReturnResponse> {
         const newpass = await hash(data.password, 10)
@@ -32,6 +37,7 @@ export class AuthService {
     }
 
     async login(data : LoginDto) : Promise<ReturnResponse> {
+        console.log("skjfs;df  ",process.env.SECRET_KEY)
         const conto = await this.prisma.user.findUnique({
             where : {
                 email : data.email
@@ -43,9 +49,20 @@ export class AuthService {
             throw new HttpException("Password does not match ", HttpStatus.UNAUTHORIZED)
         }
         else {
+
+            const token = await this.create_token(conto.id, conto.email)
             return {
-            data:data,
+            data:token,
             message : "Login wala hai ye"
         }}
+    }
+
+    async create_token (id : number, email: string): Promise<string> {
+        const payload = {
+            user : id,
+            email : email
+        }
+        return this.jwtservice.signAsync(payload)
+
     }
 }

@@ -15,9 +15,8 @@ export class AuthController {
     constructor (private readonly authsService : AuthService) {}
 
     @Post("register")
-    async register(@Req() req : Request)  {
-        console.log(req)
-        return "nothing"
+    async register(@Body() data:UserDto)  {
+        return this.authsService.register(data)
     }
 
     @Post("login")
