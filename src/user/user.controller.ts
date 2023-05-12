@@ -1,7 +1,8 @@
 import { Controller, Get, UseGuards, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtGuards } from 'src/auth/guards/auth.guards';
-// import { Request } from 'express';
+import { User } from 'src/auth/decorators/auth.decorators';
+import { UserDto } from 'src/auth/dto/auth.dto';
 
 
 interface CustomRequest extends Request {
@@ -12,7 +13,8 @@ interface CustomRequest extends Request {
 @Controller('user')
 export class UserController {
     @Get("first")
-    getme(@Request() req) {
+    getme(@User("name") user: UserDto) { // If you don't provide any field, then it will return entire user, but provide specific field to get specific data
+        console.log(user)
         return "first"
     }
 
