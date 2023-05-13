@@ -13,7 +13,7 @@ interface CustomRequest extends Request {
 @Controller('user')
 export class UserController {
     @Get("first")
-    getme(@User("name") user: UserDto) { // If you don't provide any field, then it will return entire user, but provide specific field to get specific data
+    getme(@User() user: any) { // If you don't provide any field, then it will return entire user, but provide specific field to get specific data
         console.log(user)
         return "first"
     }

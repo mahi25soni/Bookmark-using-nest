@@ -37,7 +37,6 @@ export class AuthService {
     }
 
     async login(data : LoginDto) : Promise<ReturnResponse> {
-        console.log("skjfs;df  ",process.env.SECRET_KEY)
         const conto = await this.prisma.user.findUnique({
             where : {
                 email : data.email

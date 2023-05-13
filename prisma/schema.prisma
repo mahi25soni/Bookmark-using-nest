@@ -11,10 +11,23 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String
-  email String @unique
-  password String
-  created_at DateTime @default(now()) 
+  id         Int        @id @default(autoincrement())
+  name       String
+  email      String     @unique
+  password   String
+  bookmarks  Bookmark[]
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+}
+
+model Bookmark {
+  id            Int    @id @default(autoincrement())
+  user          User   @relation(fields: [userId], references: [id])
+  userId        Int 
+  bookmark_name String 
+  link          String @unique
+  desc          String @db.Text()
+
+  created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
